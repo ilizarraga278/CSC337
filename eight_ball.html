@@ -3,16 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title>Eight Ball</title>
+        <link rel="stylesheet" type="text/css" href="eight_ball.css">
     </head>
     <body>
         <h1>Eight Ball</h1>
-        <link rel="stylesheet" type="text/css" href="eight_ball.css">
         <div class="eightball">
             <img class="8ball_display" src="images/8ball.png" alt="Magic 8 Ball">
-            <br><br><button id="ask8ball">Ask a Question</button>
-            <div id="fortuneGiven"></div>
+            <div class="question-form">
+                <input type="text" id="userQuestion" placeholder="Ask your question..." required>
+                <br><button id="submitQuestion">Submit</button>
+            </div>
+            <div id="fortuneGiven" class="response-box"></div>
         </div>
-        <!--ADD JS file for functionality-->
+        <script src="eight_ball.js"></script>
     </body>
-
 </html>
