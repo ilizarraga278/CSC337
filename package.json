@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "with express",
   "main": "index.js",
-  "type":"module",
+  "type": "module",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon horoscope.js"
   },
   "author": "emily ayala",
   "license": "ISC",

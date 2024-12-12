@@ -1,83 +1,260 @@
+import express from "express";
+import mongoose from "mongoose";
+import axios from "axios";
+import dotenv from "dotenv";
 
-import express from 'express';
-import axios from 'axios';
+dotenv.config();
 
 const app = express();
-app.use(express.json()); // To parse JSON request bodies
+app.use(express.json());
+
+// Port and MongoDB connection URL from environment variables
+const PORT = process.env.PORT || 7000;
+const MONGOURL = process.env.MONGO_URL;
 
 const API_URL = 'https://json.freeastrologyapi.com/planets';
 const API_KEY = 'VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY';
 
-app.post('/get-planets', async (req, res) => {
+// Connect to MongoDB and start the server
+mongoose.connect(MONGOURL).then(() => {
+    console.log("Database connected successfully.");
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+});
+
+// User Schema
+const userSchema = mongoose.Schema({
+    name: String,
+    profile: String,
+    email: String,
+    year: Number,
+    month: Number,
+    day: Number,
+  });
+
+// Create Mongoose model
+const UserModel = mongoose.model("users", userSchema);
+
+// Route to fetch users and make API call using their data
+app.get("/getUsers", async (req, res) => {
     try {
-        // Data payload received from the client
-        const userInput = req.body;
+        // Fetch all users from the database
+        const users = await UserModel.find();
+        
+        // You can select a specific user based on query parameters or use the first one
+        const user = users[0]; // Or filter users based on req.query.name if you want to select specific users
+        
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const { year, month, day } = user;
 
-        // API request to Free Astrology API
-        const response = await axios.post(
-            API_URL,
-            userInput,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': API_KEY
-                }
+        console.log('Request Data:', { year, month, day });
+
+        // Prepare data for the API call (e.g., astrology data)
+        const currentTime = new Date();
+
+        const requestData = {
+          year: user.year,
+          month: user.month,
+          date: user.day,
+          hours: currentTime.getHours(),
+          minutes: currentTime.getMinutes(),
+          seconds: currentTime.getSeconds(),
+          latitude: 32.2319,
+          longitude: -110.9501,
+          timezone: -7.0,
+          settings: {
+            observation_point: "topocentric",
+            ayanamsha: "lahiri"
+          }
+        };
+
+        // Call the external API using Axios
+        const response = await axios.post(API_URL, requestData, {
+            headers: {
+                "Content-Type": "application/json",
+                "x-api-key": API_KEY,
+            },
+        });
+
+        const apiData = response.data.output.map(entry => {
+            // Dynamically access the key corresponding to the user's month (e.g., "7" for July)
+            const planetData = entry[month];
+            if (planetData) {
+                return {
+                    name: planetData.name,
+                    current_sign: planetData.current_sign,
+                    fullDegree: planetData.fullDegree,
+                    isRetro: planetData.isRetro,
+                };
             }
-        );
+            return null; // If there's no matching data, return null
+        }).filter(Boolean); // Filter out any null entries
 
-        const api_data = Object.values(response.data.output[1]).map(planet => ({
-            name: planet.name,
-            isRetro: planet.isRetro,
-            current_sign: planet.current_sign
-        }));
-        console.log(api_data);
+        console.log("Filtered Data based on month:", apiData);
 
-
-        // Send the API response back to the client
-        res.status(200).json(api_data);
+        res.status(200).json(apiData);
     } catch (error) {
-        console.error('Error calling Astrology API:', error.message);
-        res.status(500).json({ error: 'Failed to fetch data from Astrology API' });
+        console.error("Error:", error.message);
+        res.status(500).json({ message: "Failed to fetch data from Astrology API" });
     }
 });
 
-// Start the Express server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// #2 Did not work merging API & database
+// import express from "express";
+// import axios from "axios";
+// import mongoose from "mongoose";
+// import dotenv from "dotenv";
+
+// dotenv.config();
+
+// const app = express();
+// app.use(express.json());
+
+// const API_URL = 'https://json.freeastrologyapi.com/planets';
+// const API_KEY = 'VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY';
+// const MONGOURL = process.env.MONGO_URL;
 
 
-const cookie_fortunes = [
-    "A dream you have will come true.",
-    "Our deeds determine us, as much as we determine our deeds.",
-    "Never give up. You're not a failure if you don't give up.",
-    "You will become great if you believe in yourself.",
-    "There is no greater pleasure than seeing your loved ones prosper.",
-    "You will marry your lover.",
-    "A very attractive person has a message for you.",
-    "You already know the answer to the questions lingering inside your head.",
-    "It is now, and in this world, that we must live.",
-    "You must try, or hate yourself for not trying.",
-    "You can make your own happiness.",
-    "The greatest risk is not taking one.",
-    "The love of your life is stepping into your planet this summer.",
-    "Love can last a lifetime, if you want it to.",
-    "Now is the time to try something new.",
-    "Wealth awaits you very soon.",
-    "If you feel you are right, stand firmly by your convictions.",
-    "If winter comes, can spring be far behind?",
-    "Keep your eye out for someone special.",
-    "You are very talented in many ways.",
-    "A stranger, is a friend you have not spoken to yet.",
-    "A new voyage will fill your life with untold memories.",
-    "You will travel to many exotic places in your lifetime.",
-    "Your ability for accomplishment will follow with success."
-];
+
+// // Connect to MongoDB
+// mongoose
+//   .connect(MONGOURL)
+//   .then(() => console.log("Database connected successfully"))
+//   .catch((err) => console.error("Database connection error:", err));
+
+// // Define your schema and model
+// const userSchema = mongoose.Schema({
+//     name: String,
+//     profile: String,
+//     email: String,
+//     year: Number,
+//     month: Number,
+//     day: Number,
+// });
+
+// const UserModel = mongoose.model("users", userSchema);
+
+// // Define the route to handle the API call
+// app.get("/getUsers", async (req, res) => {
+
+//     const { name } = req.query;
+    
+//     try {
+//         // Fetch user data from the database
+//         const user = await UserModel.findOne({ name: name });
+//         if (!user) {
+//           return res.status(404).json({ error: "User not found" });
+//         }
+
+//         const { year, month, day } = user;
+//         if (!year || !month || !day) {
+//           return res.status(400).json({ error: "Incomplete birthdate information" });
+//         }
+    
+//     const currentTime = new Date();
+
+//     const requestData = {
+//       year: user.year,
+//       month: user.month,
+//       date: user.day,
+//       hours: currentTime.getHours(),
+//       minutes: currentTime.getMinutes(),
+//       seconds: currentTime.getSeconds(),
+//       latitude: 32.2319, // assumes born in Tucson
+//       longitude: -110.9501, // assumes born in Tucson
+//       timezone: -7.0, // assumes born in Tucson
+//       settings: {
+//         observation_point: "topocentric",
+//         ayanamsha: "lahiri",
+//       },
+//     };
+
+//     // Call the external API
+//     const response = await axios.post(API_URL, requestData, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         "x-api-key": API_KEY,
+//       },
+//     });
+
+//     if (!response.data || !response.data.output || !Array.isArray(response.data.output[1])) {
+//         throw new Error("Unexpected API response structure");
+//     }
+//     const apiData = Object.values(response.data.output).flatMap((planetData) => 
+//         Object.values(planetData).map((planet) => ({
+//             name: planet.name,
+//             isRetro: planet.isRetro,
+//             current_sign: planet.current_sign
+//         }))
+//     );
+
+//     res.status(200).json(apiData);
+//   } catch (error) {
+//     console.error("Error fetching astrology data:", error.message);
+//     res.status(500).json({ error: "Failed to fetch data from Astrology API" });
+//   }
+// });
+
+// // Start the server
+// const PORT = process.env.PORT || 7000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 
-let rand_index = Math.floor(Math.random() * cookie_fortunes.length)
+//Correct API CALL
+// import express from 'express';
+// import axios from 'axios';
+// import mongoose from 'mongoose';
 
-//console.log(cookie_fortunes[rand_index])
+// const app = express();
+// app.use(express.json()); // To parse JSON request bodies
 
-//API key: VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY
+// const API_URL = 'https://json.freeastrologyapi.com/planets';
+// const API_KEY = 'VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY';
+// const TUCSON_LAT = 32.2319;
+// const TUCSON_LON = -110.9501;
+// const TUCSON_TZ = -7.0; // UTC-7 for Tucson
+
+// app.post('/get-planets', async (req, res) => {
+//     try {
+//         // Data payload received from the client
+//         const userInput = req.body;
+
+//         // API request to Free Astrology API
+//         const response = await axios.post(
+//             API_URL,
+//             userInput,
+//             {
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     'x-api-key': API_KEY
+//                 }
+//             }
+//         );
+
+//         const api_data = Object.values(response.data.output[1]).map(planet => ({
+//             name: planet.name,
+//             isRetro: planet.isRetro,
+//             current_sign: planet.current_sign
+//         }));
+//         console.log(api_data);
+
+
+//         // Send the API response back to the client
+//         res.status(200).json(api_data);
+//     } catch (error) {
+//         console.error('Error calling Astrology API:', error.message);
+//         res.status(500).json({ error: 'Failed to fetch data from Astrology API' });
+//     }
+// });
+
+// // Start the Express server
+// const PORT = 3000;
+// app.listen(PORT, () => {
+//     console.log(`Server is running on http://localhost:${PORT}`);
+// });
+// //API key: VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY
