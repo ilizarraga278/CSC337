@@ -54,3 +54,23 @@ h2 {
     flex: 1;
     text-align: right;
 }
+
+a.back-button {
+    margin-top: 20px;
+    background-color: #d2a060;
+    color: #000;
+    text-decoration: none;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 1.4em;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+a.back-button:hover{
+    background-color: #c09050;
+    transform: scale(1.05);
+}
