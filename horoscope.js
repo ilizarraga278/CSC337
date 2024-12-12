@@ -2,11 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import axios from "axios";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 // Port and MongoDB connection URL from environment variables
 const PORT = process.env.PORT || 7000;
@@ -102,107 +104,6 @@ app.get("/getUsers", async (req, res) => {
     }
 });
 
-// #2 Did not work merging API & database
-// import express from "express";
-// import axios from "axios";
-// import mongoose from "mongoose";
-// import dotenv from "dotenv";
-
-// dotenv.config();
-
-// const app = express();
-// app.use(express.json());
-
-// const API_URL = 'https://json.freeastrologyapi.com/planets';
-// const API_KEY = 'VxoTp0ql6W7qD1Ds64U5p6iWvgK1F8KE6YKehJKY';
-// const MONGOURL = process.env.MONGO_URL;
-
-
-
-// // Connect to MongoDB
-// mongoose
-//   .connect(MONGOURL)
-//   .then(() => console.log("Database connected successfully"))
-//   .catch((err) => console.error("Database connection error:", err));
-
-// // Define your schema and model
-// const userSchema = mongoose.Schema({
-//     name: String,
-//     profile: String,
-//     email: String,
-//     year: Number,
-//     month: Number,
-//     day: Number,
-// });
-
-// const UserModel = mongoose.model("users", userSchema);
-
-// // Define the route to handle the API call
-// app.get("/getUsers", async (req, res) => {
-
-//     const { name } = req.query;
-    
-//     try {
-//         // Fetch user data from the database
-//         const user = await UserModel.findOne({ name: name });
-//         if (!user) {
-//           return res.status(404).json({ error: "User not found" });
-//         }
-
-//         const { year, month, day } = user;
-//         if (!year || !month || !day) {
-//           return res.status(400).json({ error: "Incomplete birthdate information" });
-//         }
-    
-//     const currentTime = new Date();
-
-//     const requestData = {
-//       year: user.year,
-//       month: user.month,
-//       date: user.day,
-//       hours: currentTime.getHours(),
-//       minutes: currentTime.getMinutes(),
-//       seconds: currentTime.getSeconds(),
-//       latitude: 32.2319, // assumes born in Tucson
-//       longitude: -110.9501, // assumes born in Tucson
-//       timezone: -7.0, // assumes born in Tucson
-//       settings: {
-//         observation_point: "topocentric",
-//         ayanamsha: "lahiri",
-//       },
-//     };
-
-//     // Call the external API
-//     const response = await axios.post(API_URL, requestData, {
-//       headers: {
-//         "Content-Type": "application/json",
-//         "x-api-key": API_KEY,
-//       },
-//     });
-
-//     if (!response.data || !response.data.output || !Array.isArray(response.data.output[1])) {
-//         throw new Error("Unexpected API response structure");
-//     }
-//     const apiData = Object.values(response.data.output).flatMap((planetData) => 
-//         Object.values(planetData).map((planet) => ({
-//             name: planet.name,
-//             isRetro: planet.isRetro,
-//             current_sign: planet.current_sign
-//         }))
-//     );
-
-//     res.status(200).json(apiData);
-//   } catch (error) {
-//     console.error("Error fetching astrology data:", error.message);
-//     res.status(500).json({ error: "Failed to fetch data from Astrology API" });
-//   }
-// });
-
-// // Start the server
-// const PORT = process.env.PORT || 7000;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
 
 
 //Correct API CALL
