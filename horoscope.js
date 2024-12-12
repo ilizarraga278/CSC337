@@ -2,7 +2,6 @@
 import express from 'express';
 import axios from 'axios';
 
-
 const app = express();
 app.use(express.json()); // To parse JSON request bodies
 
@@ -33,8 +32,6 @@ app.post('/get-planets', async (req, res) => {
         }));
         console.log(api_data);
 
-
-        // Log the extracted data to the console
 
         // Send the API response back to the client
         res.status(200).json(api_data);
@@ -80,7 +77,6 @@ const cookie_fortunes = [
 
 
 let rand_index = Math.floor(Math.random() * cookie_fortunes.length)
-
 
 //console.log(cookie_fortunes[rand_index])
 
