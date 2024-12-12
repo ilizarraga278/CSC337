@@ -14,6 +14,7 @@ body {
 h1 {
     font-size: 3em;
     color: #000;
+    margin-bottom: 20px;
 }
 
 .cookie {
@@ -25,6 +26,19 @@ h1 {
     width: 100%;
 }
 
+.cookie-container {
+    position: relative;
+    width: 350px;
+    height: 350px;
+}
+
+img{
+    width: 350px;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
 button#openCookie {
     background-color: #d2a060;
     border: none;
@@ -34,13 +48,7 @@ button#openCookie {
     font-weight: bold;
     color: #000;
     cursor: pointer;
-}
-
-img{
-    width: 350px;
-    height: 350px;
-    overflow: hidden;
-    position: relative;
+    margin-top: 20px;
 }
 
 a.back-button {
@@ -58,7 +66,16 @@ a.back-button {
     cursor: pointer;
 }
 
-a.back-button:hover, button#openCookie:hover{
+a.back-button:hover, button#openCookie:hover {
     background-color: #c09050;
     transform: scale(1.05);
+}
+
+#fortuneGiven {
+    margin-top: 20px;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #563094;
+    text-align: center;
 }
