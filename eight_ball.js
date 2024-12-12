@@ -7,6 +7,13 @@ const eightBallFortunes = [
     "Better not tell you now.",
     "Not very demure.",
     "Bad Bunny says yes",
+    "You may rely on it",
+    "Concentrate and ask again",
+    "Very doubtful",
+    "As I see it, yes",
+    "Most likely",
+    "Outlook good",
+    "Signs point to yes",
     "Take a break, go get a sweet treat!! :) "
 ];
 
