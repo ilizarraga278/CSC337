@@ -58,7 +58,7 @@ app.post('/createProfileForm', async (req, res) => {
 
     const newUser = new User({ name, username, email, birthdate });
     await newUser.save();
-    res.redirect("/welcome_page.html");
+    res.redirect("/main_page.html");
 
   } catch (error) {
     console.error('Error creating profile:', error);

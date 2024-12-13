@@ -29,7 +29,7 @@ document.getElementById("createProfileForm").addEventListener("submit", function
     .then(response => {
         if (response.ok) {
             // Redirect the user to the welcome page if registration successful 
-            window.location.href = "/welcome.html";
+            window.location.href = "/main_page.html";
         } else {
             return response.json(); // Parse the response as JSON if there's an error
         }
