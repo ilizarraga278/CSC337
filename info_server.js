@@ -8,6 +8,7 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
+app.use(express.static("public"));
 
 const PORT = 8001
 const MONGO_URL = "mongodb://127.0.0.1:27017/FinalProject"
