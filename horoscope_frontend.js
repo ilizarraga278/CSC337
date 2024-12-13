@@ -65,7 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch(error => {
             console.error("Error fetching horoscope data:", error);
-            document.getElementById('horoscopeGiven').innerHTML = 'Loading horoscope data.';
+            document.getElementById('horoscopeGiven').innerHTML = 'Loading horoscope data... <br> Please reload';
+
         });
 });
 
