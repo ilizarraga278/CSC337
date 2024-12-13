@@ -1,29 +1,53 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const leaderboardBody = document.getElementById("leaderboardBody");
-
+async function displayUserFortunes() {
     try {
-        // Fetch leaderboard data
-        const response = await fetch("/api/leaderboard");
-        const users = await response.json();
-
-        // Populate the table
-        users.forEach(user => {
-            const row = document.createElement("tr");
-
-            const usernameCell = document.createElement("td");
-            usernameCell.textContent = user.username;
-
-            const fortunesCell = document.createElement("td");
-            fortunesCell.textContent = user.fortunes.join(", ");
-
-            row.appendChild(usernameCell);
-            row.appendChild(fortunesCell);
-
-            leaderboardBody.appendChild(row);
+        // Fetch all user data from the backend API
+        const response = await fetch('http://localhost:8001/all_users', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
-    } 
-    catch (error) {
-        console.error("Error fetching leaderboard data:", error);
-        leaderboardBody.innerHTML = `<tr><td colspan="2">Failed to load leaderboard</td></tr>`;
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+            // Get the container where we will display the user data
+            const userFortunesDiv = document.getElementById('user-fortunes');
+            userFortunesDiv.innerHTML = ''; // Clear any existing content
+
+            // Iterate through all users and display their data
+            data.forEach(user => {
+                // Create a container for each user's information
+                const userDiv = document.createElement('div');
+                userDiv.classList.add('user-container'); // Add a class for styling
+
+                // Add user details
+                const nameDiv = document.createElement('div');
+                nameDiv.textContent = `Name: ${user.name}`;
+                userDiv.appendChild(nameDiv);
+
+                const usernameDiv = document.createElement('div');
+                usernameDiv.textContent = `Username: ${user.username}`;
+                userDiv.appendChild(usernameDiv);
+
+                const latestFortune = user.fortunes[user.fortunes.length - 1] || 'No fortune available';
+                const fortuneDiv = document.createElement('div');
+                fortuneDiv.textContent = `Latest Fortune: ${latestFortune}`;
+                userDiv.appendChild(fortuneDiv);
+
+                // Append the user's information to the main container
+                userFortunesDiv.appendChild(userDiv);
+            });
+        } else {
+            console.error('Data is not an array:', data);
+        }
+    } catch (error) {
+        console.error('Error fetching user fortunes:', error);
     }
-});
+}
+
+document.addEventListener('DOMContentLoaded', displayUserFortunes);

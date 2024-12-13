@@ -22,23 +22,38 @@ table {
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-th, td {
-    padding: 15px;
-    border: 1px solid #d2a060;
-    text-align: center;
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(113, 167, 111);
+    padding: 20px;
 }
 
-th {
-    background-color: #d2a060;
-    color: #000;
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+#user-fortunes {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-item {
+    background-color: #f7b45e;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    width: 80%;
+    text-align: left;
     font-size: 1.2em;
 }
 
-td {
-    background-color: #fff;
-    color: #333;
-    font-size: 1em;
+.user-item strong {
+    color: #000;
 }
+
 
 /* Back button styling */
 a.back-button {
