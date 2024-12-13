@@ -9,20 +9,21 @@ document.getElementById("createProfileForm").addEventListener("submit", function
   const month = document.getElementById("month").value;
   const day = document.getElementById("day").value;
 
-  // Prepare the data to be sent
+  const fortunes = [];
+
   const data = {
-      name,
-      username,
-      email,
-      birthdate: {
-          year,
-          month,
-          day
-      }
+    name,
+    username, 
+    email,
+    year,
+    month,
+    day,
+    fortunes,
   };
 
+
   // Send a POST request to the backend
-  fetch("/createProfileForm", {
+  fetch("http://localhost:8001/createProfileForm", {
       method: "POST",
       headers: {
           "Content-Type": "application/json"
