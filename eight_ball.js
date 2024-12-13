@@ -20,7 +20,7 @@ const eightBallFortunes = [
 // Function to update fortunes on the server
 function updateFortunes(fortune) {
     // Get the current user ID (assuming it's stored in a session or retrieved dynamically)
-    const userId = 'USER_ID'; // Replace with actual logic to get user ID
+    const userId = JSON.parse(localStorage.getItem('userId'));
 
     // Send a POST request to the server to update the user's fortunes array
     fetch(`http://localhost:8001/updateFortune/${userId}`, {
@@ -32,13 +32,31 @@ function updateFortunes(fortune) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log("Fortune updated:", data);
+
+        let userFortunes = localStorage.getItem('userFortunes');
+
+        // If the data is not valid JSON, initialize an empty object
+        try {
+            userFortunes = JSON.parse(userFortunes) || {};
+        } catch (e) {
+            console.error("Error parsing userFortunes from localStorage:", e);
+            userFortunes = {};
+        }
+
+        if (!userFortunes[userId]) {
+            userFortunes[userId] = [];
+        }
+
+        userFortunes[userId].push(fortune);
+
+        localStorage.setItem('userFortunes', JSON.stringify(userFortunes));
+
+        console.log("Fortune updated in local storage:", userFortunes);
     })
     .catch(error => {
         console.error("Error updating fortunes:", error);
     });
 }
-
 // Event listener for submit
 document.getElementById("submitQuestion").addEventListener("click", function () {
     const userQuestion = document.getElementById("userQuestion").value;

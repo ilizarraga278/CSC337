@@ -19,14 +19,15 @@ document.getElementById("user_info").addEventListener("submit", function(event) 
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, name, email })
+        body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(data => {
+        console.log(data); // Check if userId is returned correctly
         if (data.message === "User found") {
             // Save data to localStorage
             localStorage.setItem("userData", JSON.stringify(data.user));
-            
+            localStorage.setItem("userId", data.user.userId);
             // Example: Redirect to another page after login
             window.location.href = "main_page.html";
         } else {
