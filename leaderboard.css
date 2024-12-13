@@ -1,0 +1,62 @@
+/* General styling */
+body {
+    background-color: rgb(113, 167, 111);
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Header */
+h1 {
+    font-size: 3em;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+/* Leaderboard table */
+table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+th, td {
+    padding: 15px;
+    border: 1px solid #d2a060;
+    text-align: center;
+}
+
+th {
+    background-color: #d2a060;
+    color: #000;
+    font-size: 1.2em;
+}
+
+td {
+    background-color: #fff;
+    color: #333;
+    font-size: 1em;
+}
+
+/* Back button styling */
+a.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #d2a060;
+    color: #000;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+a.back-button:hover {
+    background-color: #c09050;
+    transform: scale(1.05);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
