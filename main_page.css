@@ -38,3 +38,25 @@ img{
     color: #000;
     text-align: center;
 }
+
+.help-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #d2a060;
+    color: #000;
+    text-decoration: none;
+    border-radius: 50px;
+    padding: 15px 40px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.help-button:hover {
+    background-color: #c09050;
+    transform: scale(1.05);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
