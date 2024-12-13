@@ -15,7 +15,12 @@ const fortunes = [
 // Function to update fortunes on the server
 function updateFortunes(fortune) {
     // Get the current user ID (assuming it's stored in a session or retrieved dynamically)
-    const userId = JSON.parse(localStorage.getItem('userId'));
+    const userId = localStorage.getItem('userId');
+
+    if (!userId) {
+        console.error("User ID not found in localStorage.");
+        return;
+    }
 
     // Send a POST request to the server to update the user's fortunes array
     fetch(`http://localhost:8001/updateFortune/${userId}`, {
@@ -28,25 +33,24 @@ function updateFortunes(fortune) {
     .then(response => response.json())
     .then(data => {
 
+        // Get stored fortunes from localStorage
         const rawUserFortunes = localStorage.getItem('userFortunes');
-
         let userFortunes = {};
 
-        // If the data is not valid JSON, initialize an empty object
-        try {
-            if (rawUserFortunes) {
-                userFortunes = JSON.parse(rawUserFortunes);
-            }
-        } catch (e) {
-            console.error("Error parsing userFortunes from localStorage:", e);
+        // If userFortunes exists in localStorage, parse it
+        if (rawUserFortunes !== null) {
+            userFortunes = JSON.parse(rawUserFortunes);
         }
 
+        // Ensure the user has a fortune array
         if (!userFortunes[userId]) {
             userFortunes[userId] = [];
         }
 
+        // Add the new fortune
         userFortunes[userId].push(fortune);
 
+        // Save the updated fortunes to localStorage
         localStorage.setItem('userFortunes', JSON.stringify(userFortunes));
 
     })
