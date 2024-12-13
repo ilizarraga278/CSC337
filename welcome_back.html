@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>Welcome Back</h1>
-        <div id="user_info">
+        <form id="user_info" method="POST">            
             <label for="username">Username</label>
             <input type="text" id="username" placeholder="Enter your username" required>
             
@@ -17,8 +17,11 @@
             <label for="email">Email</label>
             <input type="email" id="email" placeholder="Enter your email" required>
             
-            <button id="loginButton">Log In</button>
+            <button type="submit"> Log In</button>
             <a href="welcome_page.html" class="back-button">Return to Login Page</a>
-        </div>
+            
+        </form>
+        <script src="user_login.js"></script>
+
     </body>
 </html>

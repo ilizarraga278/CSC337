@@ -8,3 +8,22 @@ const JournalSchema = new mongoose.Schema({
 
 const JournalModel = mongoose.model('Journal',JournalSchema);
 export default JournalModel;
+
+// Retrieve and parse data
+const userData = JSON.parse(localStorage.getItem("userData"));
+
+if (userData) {
+    console.log("User Data:", userData);
+    console.log("Year:", userData.year);
+    console.log("Fortunes:", userData.fortunes);
+
+    // Example: Display fortunes on the page
+    const fortunesList = document.getElementById("fortunesList");
+    userData.fortunes.forEach(fortune => {
+        const listItem = document.createElement("li");
+        listItem.textContent = fortune;
+        fortunesList.appendChild(listItem);
+    });
+} else {
+    console.log("No user data found.");
+}
