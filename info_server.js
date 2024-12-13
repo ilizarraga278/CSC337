@@ -36,7 +36,7 @@ const userSchema = mongoose.Schema({
 const UserModel = mongoose.model("users", userSchema);
 
 app.get("/",(req,res)=>{
-  res.send('Welcome to Final Project!');
+  res.sendFile('welcome_page.html');
 });
 
 // POST endpoint to create a user profile
