@@ -2,34 +2,67 @@
 // import mongoose from "mongoose"
 // import dotenv from "dotenv"
 
-// const app = express();
 
+// const app = express();
 // dotenv.config();
 
-// const PORT = process.env.PORT || 7000
+// app.use(express.json());
+
+// const PORT = process.env.PORT || 8000;
 // const MONGOURL = process.env.MONGO_URL;
 
-// // Connect to MongoDB and start the server
+// // Serve static files from 'public' directory
+// app.use(express.static(path.join(__dirname, "CSC337")));
+// app.use(express.json());  // Middleware to parse JSON body
+
 // mongoose.connect(MONGOURL).then(() => {
-//     console.log("Database connected successfully.");
-//     app.listen(PORT, () => {
-//       console.log(`Server is running on port ${PORT}`);
-//     });
+//   console.log("Database is connected successfully.");
+//   app.listen(PORT, () => {
+//     console.log(`Server is running on port ${PORT}`);
 //   });
-  
-//   const userSchema = mongoose.Schema({
-//     name: String,
-//     year: Number
-//   });
-  
-//   // Create a Mongoose model called "UserModel" based on the userSchema
-//   const UserModel = mongoose.model("users", userSchema);
-  
-//   // Set up a route in the Express application to handle GET requests to "/getUsers"
-//   app.get("/getUsers", async (req, res) => {
-//     // Await fetching all user data from the database using the UserModel
-//     const users = await UserModel.find();
-//     // Send the user data as a JSON response
-//     res.json(users);
+// }).catch((error) => console.log(error));
+
+// const userSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   username: { type: String, required: true, unique: true },
+//   email: { type: String, required: true, unique: true },
+//   birthdate: {
+//   year: { type: Number, required: true },
+//   month: { type: Number, required: true },
+//   day: { type: Number, required: true }
+// }
+// });
+
+// const userModel = mongoose.model("user", userSchema)
+
+// // POST route to handle form submission and save data to the database
+// app.post("/createProfileForm", async (req, res) => {
+// const { name, username, email, birthdate } = req.body;
+
+// try {
+//   // Check if the username or email already exists in the database
+//   const existingUser = await userModel.findOne({
+//     $or: [{ username }, { email }]
 //   });
 
+//   if (existingUser) {
+//     return res.status(400).json({ message: "Username or Email already exists!" });
+//   }
+
+//   // Create a new user
+//   const newUser = new userModel({
+//     name,
+//     username,
+//     email,
+//     birthdate
+//   });
+
+//       // Save the user to the database
+//     await newUser.save();
+//     res.status(201).json({message :"profile created successfully"});
+//   } catch (error){
+//       console.error(error);
+//       res.status(500).send("Server error. Could not create profile.");
+//   }
+  
+// });

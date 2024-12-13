@@ -28,7 +28,7 @@ mongoose.connect(MONGOURL).then(() => {
 // User Schema
 const userSchema = mongoose.Schema({
     name: String,
-    profile: String,
+    username: String,
     email: String,
     year: Number,
     month: Number,

@@ -2,32 +2,37 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Create Profile</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up</title>
+        <script src="get_info.js" defer></script>
         <link rel="stylesheet" type="text/css" href="info_fields.css">
     </head>
     <body>
         <h1>Create Profile</h1>
-        <form action="" method="POST">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Enter your name" required>
-            
-            <label for="profileName">Profile Name</label>
-            <input type="text" id="profileName" name="profileName" placeholder="Enter your profile name" required>
+        <form id="createProfileForm" action="" method="POST">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" style="text-transform: capitalize;" required><br>
+
+            <label for="username">User Name</label>
+            <input type="text" id="username" name="username" style="text-transform: lower;" required><br>
             
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Enter your email" required>
-            
-            <label for="birthYear">Birth Year</label>
-            <input type="number" id="birthYear" name="birthYear" placeholder="YYYY" required>
-            
-            <label for="birthMonth">Birth Month</label>
-            <input type="number" id="birthMonth" name="birthMonth" placeholder="MM, NO leading zeros plz" required>
-            
-            <label for="birthDay">Birth Day</label>
-            <input type="number" id="birthDay" name="birthDay" placeholder="DD, NO leading zeros plz" required>
-            
-            <button type="submit" class="submit-button">Submit</button>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="year">Birth year</label>
+            <input type="number" id="year" name="year" required><br>
+
+            <label for="month">Birth month</label>
+            <input type="number" id="month" name="month" required><br>
+
+            <label for="day">Birth day</label>
+            <input type="number" id="day" name="day" required><br>
+
+            <button type="submit"> Create Profile</button>
+
         </form>
-        <a href="welcome_page.html" class="back-button">Return to Login Page</a>
+        <div id="message"></div>
     </body>
+
 </html>
+
