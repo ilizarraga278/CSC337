@@ -6,6 +6,7 @@ window.onload = function() {
 
 
     xhr.onload = function() {
+        
 
         if (xhr.status === 200){
             const data = JSON.parse(xhr.responseText);
