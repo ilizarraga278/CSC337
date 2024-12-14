@@ -80,6 +80,7 @@ app.get("/getUsers", (req,res) => {
         console.error("error fetching users:",error);
         res.status(500).json({message: "Error fetching users"})
     });
+});
 
 app.get("/getHoroscope", (req,res) => {
     const {year,month,day} = req.query;
