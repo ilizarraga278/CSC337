@@ -14,7 +14,7 @@ document.getElementById("user_info").addEventListener("submit", function(event) 
   
 
     // send post req
-    fetch("http://143.198.79.177:8001//user_info", {
+    fetch("http://143.198.79.177:8001/user_info", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
