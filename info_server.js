@@ -8,7 +8,6 @@ import path from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-app.use(express.static(path.join(__dirname)));
 
 const PORT = 8001;
 const MONGO_URL = "mongodb://127.0.0.1:27017/FinalProject";
@@ -21,6 +20,7 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname,"public")));
 
 //Connect to MongoDB
 mongoose.connect(MONGO_URL).then(() => {
@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
 const UserModel = mongoose.model("users", userSchema);
 
 app.get("/",(req,res)=>{
-  res.sendFile(path.join(__dirname,'welcome_page.html'));
+  res.sendFile(path.join(__dirname,"welcome_page.html"));
 });
 
 // POST endpoint to create a user profile
@@ -71,25 +71,25 @@ app.post("/createProfileForm", (req, res) => {
     });
 });
 
-app.get("/getUsers", async (re,res) => {
+app.get("/getUsers", (req,res) => {
     UserModel.find({})
     .then(users => {
         res.json(users);
     })
     .catch(error => {
         console.error("error fetching users:",error);
-        res.status(500).json({"Error fetching users"})
+        res.status(500).json({message: "Error fetching users"})
     });
 
 app.get("/getHoroscope", (req,res) => {
     const {year,month,day} = req.query;
     if (!year || !month || !day) {
-        return res.status(400).json({"Missing necessary data"});
+        return res.status(400).json({message: "Missing necessary data"});
     }
     UserModel.findOne({year,month,day})
     .then(user => {
         if (!user) {
-            return res.status(404).json({"User not found"});
+            return res.status(404).json({message: "User not found"});
         }
         const horoscope = [
             {name: "Neptune",current_sign:"Pisces",fullDegree:234,isRetro:false},
@@ -98,8 +98,8 @@ app.get("/getHoroscope", (req,res) => {
         res.json(horoscope);
     })
     .catch(error => {
-        console.error("Error fetching horoscope");
-        res.status(500).json("Error fetching horoscope data");
+        console.error("Error fetching horoscope",error);
+        res.status(500).json({message:"Error fetching horoscope data"});
     });
 });
 // Start the server
