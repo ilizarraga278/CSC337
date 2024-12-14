@@ -32,7 +32,7 @@ function displayFortunes() {
     // Get the user fortunes stored in localStorage using the user ID as the key
     const userId = localStorage.getItem('userId');
     const fortunes = JSON.parse(localStorage.getItem('userFortunes')); // Get the fortunes array from localStorage
-    console.log(fortunes[userId])
+    console.log(fortunes[userId]);
     // Check if fortunes are available
     if (!fortunes || fortunes.length === 0) {
         console.log("No fortunes found.");
