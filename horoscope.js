@@ -43,8 +43,6 @@ app.get("/getUsers", async (req, res) => {
     try {
         // Fetch all users from the database
         const users = await UserModel.find();
-        
-        // You can select a specific user based on query parameters or use the first one
         const user = users[0]; // Or filter users based on req.query.name if you want to select specific users
         
         if (!user) {
