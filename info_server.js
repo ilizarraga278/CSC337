@@ -10,8 +10,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 app.use(express.static("public"));
 
-const PORT = 8001
-const MONGO_URL = "mongodb://127.0.0.1:27017/FinalProject"
+const PORT = 8001;
+const MONGO_URL = "mongodb://127.0.0.1:27017/FinalProject";
 
 // Middleware
 app.use(cors({
@@ -71,11 +71,38 @@ app.post("/createProfileForm", (req, res) => {
     });
 });
 
+app.get("/getUsers", async (re,res) => {
+    UserModel.find({})
+    .then(users => {
+        res.json(users);
+    })
+    .catch(error => {
+        console.error("error fetching users:",error);
+        res.status(500).json({"Error fetching users"})
+    });
+
+app.get("/getHoroscope", (req,res) => {
+    const {year,month,day} = req.query;
+    if (!year || !month || !day) {
+        return res.status(400).json({"Missing necessary data"});
+    }
+    UserModel.findOne({year,month,day})
+    .then(user => {
+        if (!user) {
+            return res.status(404).json({"User not found"});
+        }
+        const horoscope = [
+            {name: "Neptune",current_sign:"Pisces",fullDegree:234,isRetro:false},
+            {name: "Venus",current_sign: "Cancer",fullDegree:120,isRetro:true},
+            ];
+        res.json(horoscope);
+    })
+    .catch(error => {
+        console.error("Error fetching horoscope");
+        res.status(500).json("Error fetching horoscope data");
+    });
+});
 // Start the server
 app.listen(8001, () => {
   console.log(`Server running on http://143.198.79.177:8001/`);
-});
-
-app.listen(8000,() =>{
-    console.log(`Server running on http://143.198.79.177:8000/`);
 });
