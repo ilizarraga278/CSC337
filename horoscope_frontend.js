@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const day = 15;
 
     // Make a request to the server
-    fetch(`http://localhost:8000/getHoroscope?year=${year}&month=${month}&day=${day}`)
+    fetch(`http://143.198.79.177:8001/getHoroscope?year=${year}&month=${month}&day=${day}`)
         .then(response => response.json())
         .then(data => {
             // Display the returned data
