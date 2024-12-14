@@ -2,7 +2,7 @@ window.onload = function() {
 
     const xhr = new XMLHttpRequest();
 
-    xhr.open('GET', 'http://localhost:8000/getUsers', true);  // Replace with your actual server URL
+    xhr.open('GET', 'http://143.198.79.177:8001/getUsers', true);  // Replace with your actual server URL
 
 
     xhr.onload = function() {
