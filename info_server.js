@@ -72,6 +72,10 @@ app.post("/createProfileForm", (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(8001, () => {
+  console.log(`Server running on http://143.198.79.177:8001/`);
+});
+
+app.listen(8000,() =>{
+    console.log(`Server running on http://143.198.79.177:8000/`);
 });
