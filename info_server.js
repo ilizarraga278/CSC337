@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
 const UserModel = mongoose.model("users", userSchema);
 
 app.get("/",(req,res)=>{
-  res.sendFile(path.join(__dirname,"welcome_page.html"));
+  res.sendFile(path.join(__dirname,"public","welcome_page.html"));
 });
 
 // POST endpoint to create a user profile
@@ -89,6 +89,7 @@ app.get("/getUsers", (req,res) => {
         res.status(500).json({message: "Error fetching users"})
     });
 });
+    
 
 app.get("/getHoroscope", (req,res) => {
     const {year,month,day} = req.query;
