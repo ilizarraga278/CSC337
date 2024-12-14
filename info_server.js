@@ -48,6 +48,14 @@ app.get("/",(req,res)=>{
 app.post("/createProfileForm", (req, res) => {
     const { name, username, email, year, month, day } = req.body;
 
+    // Check if user already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    
+      if (existingUser) {
+        return res.status(400).json({ message: "Username or Email already exists!" });
+      }
+
+    
     // Create a new User instance with an empty fortunes array by default
     const newUser = new UserModel({
       name,
