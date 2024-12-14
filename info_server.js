@@ -89,6 +89,41 @@ app.get("/getUsers", (req,res) => {
         res.status(500).json({message: "Error fetching users"})
     });
 });
+
+app.get("/user",(req,res)=>{
+    const {username,email} = req.query;
+    if (!username && !email){
+        return res.status(400).json({message: "Missing login params"});
+    }
+    UserModel.findOne({
+        $or: [
+            {username:username},
+            {email:email}
+            ]
+    })
+    .then(user=>{
+        if (!user){
+            return res.status(404).json({message:"User not found"});
+        }
+        res.status(200).json({
+            message:"User found",
+            user:{
+                id:user._id,
+                name:user.name,
+                username:user.username,
+                email: user.email,
+                year: user.year,
+                month: user.month,
+                day:user.day,
+                fortunes:user.fortunes
+            }
+        });
+    })
+    .catch(error=>{
+        console.error("Error fetching user",error);
+        res.status(500).json({message:"server error"});
+    });
+});
     
 
 app.get("/getHoroscope", (req,res) => {
