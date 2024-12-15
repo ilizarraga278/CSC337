@@ -1,8 +1,7 @@
 window.onload = function() {
     const xhr = new XMLHttpRequest();
 
-    //xhr.open('GET', 'http://localhost:8000/getUsers', true);  // Replace with your actual server URL
-    xhr.open('GET', 'http://localhost:8001/getUsers', true);  // Replace with your actual server URL
+    xhr.open('GET', 'http://localhost:8001/getUsers', true);  
 
     xhr.onload = function() {
         if (xhr.status === 200) {
@@ -48,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Make a request to the server
     fetch(`http://localhost:8001/getHoroscope?year=${year}&month=${month}&day=${day}`)
+
         .then(response => response.json())
         .then(data => {
             // Display the returned data
