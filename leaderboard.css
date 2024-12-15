@@ -1,10 +1,15 @@
 /* General styling */
 body {
     background-color: rgb(113, 167, 111);
-    font-family: 'Courier New', Courier, monospace;
-    margin: 0;
+    margin: 20px;
     padding: 20px;
-    text-align: center;
+    font-family: 'Courier New', Courier, monospace; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    overflow: auto;
 }
 
 /* Header */
@@ -16,14 +21,15 @@ h1 {
 
 /* Leaderboard table */
 table {
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
+    width: 90%;
+    margin: 10px;
+    border-collapse: separate;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family:'Courier New', Courier, monospace;
+    font-weight: 600;
     background-color: rgb(113, 167, 111);
     padding: 20px;
 }
@@ -35,6 +41,7 @@ h1 {
 
 #user-fortunes {
     margin-top: 20px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -42,8 +49,8 @@ h1 {
 
 .user-item {
     background-color: #f7b45e;
-    margin: 10px;
-    padding: 10px;
+    margin: 30px;
+    padding: 30px;
     border-radius: 5px;
     width: 80%;
     text-align: left;

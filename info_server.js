@@ -39,14 +39,37 @@ const userSchema = mongoose.Schema({
 const UserModel = mongoose.model("users", userSchema);
 
 // Routes for User Management (create, fetch, update)
-app.post("/createProfileForm", (req, res) => {
-    const { name, username, email, year, month, day } = req.body;
-    const newUser = new UserModel({ name, username, email, year, month, day });
+// app.post("/createProfileForm", (req, res) => {
+//     const { name, username, email, year, month, day } = req.body;
+//     const newUser = new UserModel({ name, username, email, year, month, day });
 
-    newUser.save()
-        .then(() => res.json({ message: "User profile created successfully!" }))
-        .catch((error) => res.status(500).json({ message: "Error saving profile." }));
+//     newUser.save()
+//         .then(() => res.json({ message: "User profile created successfully!" }))
+//         .catch((error) => res.status(500).json({ message: "Error saving profile." }));
+// });
+app.post("/createProfileForm", (req, res) => {
+  const { name, username, email, year, month, day } = req.body;
+  const newUser = new UserModel({ name, username, email, year, month, day });
+
+  newUser.save()
+      .then(newUser => {
+          // Send back the user data, including userId, after saving
+          res.json({
+              message: "User profile created successfully!",
+              user: {
+                  userId: newUser._id,  // Assuming _id is the userId in MongoDB
+                  name: newUser.name,
+                  username: newUser.username,
+                  email: newUser.email,
+                  year: newUser.year,
+                  month: newUser.month,
+                  day: newUser.day
+              }
+          });
+      })
+      .catch((error) => res.status(500).json({ message: "Error saving profile." }));
 });
+
 
 app.post("/user_info", (req, res) => {
     const { username, name, email } = req.body;
@@ -85,7 +108,7 @@ app.get("/getUsers", async (req, res) => {
     try {
         const users = await UserModel.find();
         const user = users[0];
-        
+
         if (!user) return res.status(404).json({ message: "User not found" });
         const { year, month, day } = user;
         const currentTime = new Date();

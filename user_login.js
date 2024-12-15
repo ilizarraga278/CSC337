@@ -12,7 +12,6 @@ document.getElementById("user_info").addEventListener("submit", function(event) 
       email
     };
   
-
     // send post req
     fetch("http://localhost:8001/user_info", {
         method: "POST",
@@ -28,7 +27,6 @@ document.getElementById("user_info").addEventListener("submit", function(event) 
             // Save data to localStorage
             localStorage.setItem("userData", JSON.stringify(data.user));
             localStorage.setItem("userId", data.user.userId);
-            // Example: Redirect to another page after login
             window.location.href = "main_page.html";
         } else {
             alert(data.message || "No user found with  given credentials.");
